@@ -7,8 +7,8 @@ Branch: `agent/complete-option-a`
 
 ## Publicacao
 
-- URL publica: BLOQUEADO POR VALOR EXTERNO
-- Commit publicado: preencher apos push final
+- URL publica: https://otg-lp.vercel.app
+- Commit publicado: preencher apos push final desta atualizacao
 - WhatsApp real: BLOQUEADO POR VALOR EXTERNO (`VITE_WHATSAPP_URL`)
 - Meta Pixel real: BLOQUEADO POR VALOR EXTERNO (`VITE_META_PIXEL_ID`)
 - GA4 real: BLOQUEADO POR VALOR EXTERNO (`VITE_GA4_ID`)
@@ -75,7 +75,7 @@ Resultado: passou
 | README | `README.md` | Revisao local | Atualizado | CONCLUIDO |
 | `.env.example` | `.env.example` | Revisao local | WhatsApp vazio | CONCLUIDO |
 | Defesa da stack | `README.md` | Revisao local | React + Vite + Tesseract | CONCLUIDO |
-| Link publico | Vercel novo | Nao executado | Falta env real/deploy | BLOQUEADO POR VALOR EXTERNO |
+| Link publico | Vercel novo `felpa-dev-studio/otg-lp` | Deploy em producao via CLI | https://otg-lp.vercel.app | CONCLUIDO |
 
 ## Evidencias Pendentes Para Completar Depois
 

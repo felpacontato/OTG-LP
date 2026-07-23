@@ -3,6 +3,8 @@
 Ultima atualizacao: 2026-07-23
 Branch de trabalho: `agent/complete-option-a`
 Repositorio: `felpacontato/OTG-LP`
+URL publica: https://otg-lp.vercel.app
+Projeto Vercel: `felpa-dev-studio/otg-lp`
 
 ## Concluido localmente
 
@@ -25,7 +27,8 @@ Repositorio: `felpacontato/OTG-LP`
 - secao de privacidade;
 - testes unitarios de Pix, arquivo, WhatsApp e tracking;
 - workflow de CI com Node 22, pnpm 9, `pnpm install --frozen-lockfile` e `pnpm run check`;
-- README tecnico e matriz de evidencias em `docs/EVIDENCES.md`.
+- README tecnico e matriz de evidencias em `docs/EVIDENCES.md`;
+- deploy de producao em projeto Vercel novo e isolado: https://otg-lp.vercel.app.
 
 ## Validacao local executada
 
@@ -42,7 +45,6 @@ pnpm run check -> passou
 - `VITE_WHATSAPP_URL` real;
 - `VITE_META_PIXEL_ID` real;
 - `VITE_GA4_ID` real;
-- projeto Vercel novo e isolado;
 - validacao real no Meta Pixel Helper;
 - validacao real no GA4 DebugView.
 
@@ -51,7 +53,6 @@ pnpm run check -> passou
 - testes manuais em navegador real nos viewports 1440 x 900, 768 x 1024 e 375 x 812;
 - fixtures ficticias de imagem para OCR real;
 - screenshots em `docs/evidence/`;
-- URL publica de producao;
 - acompanhamento final do GitHub Actions apos push.
 
 ## Proximo passo recomendado para GPT/Codex continuar

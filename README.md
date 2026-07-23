@@ -200,6 +200,10 @@ pnpm run check -> passou
 
 Ainda dependem de valores reais e ambiente publicado: WhatsApp, Meta Pixel, GA4, Vercel, Pixel Helper e GA4 DebugView.
 
+URL publica atual: https://otg-lp.vercel.app
+
+O projeto Vercel novo e isolado foi criado como `felpa-dev-studio/otg-lp`. As variaveis `VITE_WHATSAPP_URL`, `VITE_META_PIXEL_ID` e `VITE_GA4_ID` ainda precisam de valores reais para validar tracking em producao.
+
 ## Deploy
 
 Criar um projeto Vercel novo e isolado para este repositório. Não reutilizar projetos Lenterne.
