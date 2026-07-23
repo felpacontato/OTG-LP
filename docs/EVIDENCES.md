@@ -9,9 +9,9 @@ Branch: `agent/complete-option-a`
 
 - URL publica: https://otg-lp.vercel.app
 - Commit publicado: preencher apos push final desta atualizacao
-- WhatsApp real: BLOQUEADO POR VALOR EXTERNO (`VITE_WHATSAPP_URL`)
+- WhatsApp real: `https://wa.me/5511978949127`
 - Meta Pixel real: BLOQUEADO POR VALOR EXTERNO (`VITE_META_PIXEL_ID`)
-- GA4 real: BLOQUEADO POR VALOR EXTERNO (`VITE_GA4_ID`)
+- GA4 real: `G-9LR1VZ5FG5`
 
 ## Qualidade Local
 
@@ -64,13 +64,13 @@ Resultado: passou
 | Moeda ausente | `src/pixRules.js` | `pnpm run test` | Teste unitario | CONCLUIDO |
 | Privacidade | `src/main.jsx`, `README.md` | Build local | Copy e tracking sem PII | CONCLUIDO |
 | WhatsApp condicional | `src/main.jsx`, `src/validationId.js` | `pnpm run test` | URL vazia/invalida/permitida | CONCLUIDO |
-| WhatsApp real | `.env.local` ou Vercel env | Nao executado | Falta valor real | BLOQUEADO POR VALOR EXTERNO |
+| WhatsApp real | Vercel env production | Redeploy producao | `VITE_WHATSAPP_URL` configurado | CONCLUIDO |
 | PageView/page_view por carregamento | `src/tracking.js` | `pnpm run test` | Dedupe em memoria | CONCLUIDO |
 | InitiateCheckout/begin_checkout na intencao de upload | `src/main.jsx`, `src/tracking.js` | `pnpm run test` | Dedupe begin_checkout | CONCLUIDO |
 | Purchase/purchase somente aprovado | `src/main.jsx`, `src/tracking.js` | `pnpm run test` | Payload validado | CONCLUIDO |
 | Purchase dedupe por validationId | `src/tracking.js` | `pnpm run test` | `purchase:{validationId}` | CONCLUIDO |
-| GA4 real | `src/tracking.js` | Nao executado | Falta Measurement ID e deploy | BLOQUEADO POR VALOR EXTERNO |
-| Meta Pixel real | `src/tracking.js` | Nao executado | Falta Pixel ID e deploy | BLOQUEADO POR VALOR EXTERNO |
+| GA4 real | Vercel env production + `src/tracking.js` | Redeploy producao | `VITE_GA4_ID=G-9LR1VZ5FG5` | CONCLUIDO |
+| Meta Pixel real | `src/tracking.js` | Events Manager aberto no navegador do app | UI `Conectar dados > Web` fecha apos avancar; ID existente `1595440109253297` pertence a `Lunna-Helena-Universe` e nao foi usado | BLOQUEADO POR VALOR EXTERNO |
 | Responsividade desktop/mobile | `src/styles.css` | Nao executado em navegador real nesta etapa | Precisa screenshot | NAO CONCLUIDO |
 | README | `README.md` | Revisao local | Atualizado | CONCLUIDO |
 | `.env.example` | `.env.example` | Revisao local | WhatsApp vazio | CONCLUIDO |
