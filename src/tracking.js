@@ -4,6 +4,8 @@ const OFFER = {
 };
 
 const SESSION_PREFIX = 'otg_tracking:';
+const memoryEvents = new Set();
+let pageViewTracked = false;
 
 export function initTracking({ metaPixelId, ga4Id }) {
   if (metaPixelId) initializeMetaPixel(metaPixelId);
@@ -11,18 +13,14 @@ export function initTracking({ metaPixelId, ga4Id }) {
 }
 
 export function trackPageView() {
-  trackOnce('page_view', () => {
-    window.fbq?.('track', 'PageView');
-    window.gtag?.('event', 'page_view', {
-      page_title: document.title,
-      page_location: window.location.href,
-    });
-    debug('page_view');
-  });
+  if (pageViewTracked) return false;
+  pageViewTracked = true;
+  sendPageView();
+  return true;
 }
 
 export function trackBeginCheckout() {
-  trackOnce('begin_checkout', () => {
+  return trackOnce('begin_checkout', () => {
     window.fbq?.('track', 'InitiateCheckout', {
       content_name: OFFER.item_name,
       content_category: 'grupo_vip',
@@ -37,13 +35,12 @@ export function trackBeginCheckout() {
 }
 
 export function trackPurchase({ validationId, amount, currency }) {
-  if (!validationId || !Number.isFinite(amount) || currency !== 'BRL') return;
-  trackOnce('purchase', () => {
+  if (!validationId || !Number.isFinite(amount) || currency !== 'BRL') return false;
+  return trackOnce(`purchase:${validationId}`, () => {
     window.fbq?.('track', 'Purchase', {
       value: amount,
       currency,
       content_name: OFFER.item_name,
-      content_category: 'grupo_vip',
       payment_method: 'pix',
     });
     window.gtag?.('event', 'purchase', {
@@ -57,10 +54,23 @@ export function trackPurchase({ validationId, amount, currency }) {
 }
 
 export function resetTrackingForTests() {
-  if (typeof sessionStorage === 'undefined') return;
-  Object.keys(sessionStorage)
+  pageViewTracked = false;
+  memoryEvents.clear();
+  if (typeof window === 'undefined') return;
+  const storage = getSessionStorage();
+  if (!storage) return;
+  Object.keys(storage)
     .filter((key) => key.startsWith(SESSION_PREFIX))
-    .forEach((key) => sessionStorage.removeItem(key));
+    .forEach((key) => storage.removeItem(key));
+}
+
+function sendPageView() {
+  window.fbq?.('track', 'PageView');
+  window.gtag?.('event', 'page_view', {
+    page_title: document.title,
+    page_location: window.location.href,
+  });
+  debug('page_view');
 }
 
 function initializeMetaPixel(pixelId) {
@@ -112,25 +122,39 @@ function initializeGa4(measurementId) {
 
 function trackOnce(key, callback) {
   const storageKey = `${SESSION_PREFIX}${key}`;
-  if (safeSessionGet(storageKey)) return false;
-  safeSessionSet(storageKey, '1');
+  if (safeEventGet(storageKey)) return false;
+  safeEventSet(storageKey);
   callback();
   return true;
 }
 
-function safeSessionGet(key) {
+function safeEventGet(key) {
+  if (memoryEvents.has(key)) return true;
+  const storage = getSessionStorage();
+  if (!storage) return false;
   try {
-    return window.sessionStorage?.getItem(key);
+    return storage.getItem(key);
   } catch {
-    return null;
+    return false;
   }
 }
 
-function safeSessionSet(key, value) {
+function safeEventSet(key) {
+  memoryEvents.add(key);
+  const storage = getSessionStorage();
+  if (!storage) return;
   try {
-    window.sessionStorage?.setItem(key, value);
+    storage.setItem(key, '1');
   } catch {
-    // Browsers can block storage. In that case the event is still sent once per mounted flow.
+    // Storage may be blocked; memoryEvents still protects the current document.
+  }
+}
+
+function getSessionStorage() {
+  try {
+    return typeof window !== 'undefined' ? window.sessionStorage : null;
+  } catch {
+    return null;
   }
 }
 

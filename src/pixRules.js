@@ -101,7 +101,7 @@ export function validatePixText(text, minAmount, ocrConfidence = 0, minOcrConfid
 
 export function extractPixAmount(text) {
   const candidates = [];
-  const regex = /(?:r\$|brl)?\s*(\d{1,3}(?:\.\d{3})*,\d{2}|\d+[,\.]\d{2})/gi;
+  const regex = /(?:r\$|brl)?\s*(\d{1,3}(?:\.\d{3})*,\d{2}|\d+[,.]\d{2})/gi;
 
   for (const match of text.matchAll(regex)) {
     const amount = parseBrazilianAmount(match[1]);
@@ -121,7 +121,7 @@ export function extractPixAmount(text) {
     }
     if (/pix/i.test(context)) contextScore += 18;
 
-    candidates.push({ amount, contextScore, context: context.trim() });
+    candidates.push({ amount, contextScore, context: context.trim(), negativeContext: hasNegativeAmountTerm(lowerContext) });
   }
 
   if (!candidates.length) return { amount: null, ambiguous: false, candidates: [] };
@@ -132,10 +132,15 @@ export function extractPixAmount(text) {
   const ambiguous = Boolean(
     second &&
       second.amount !== best.amount &&
+      !second.negativeContext &&
       Math.abs(second.contextScore - best.contextScore) <= 10,
   );
 
   return { amount: best.amount, ambiguous, candidates: ranked };
+}
+
+function hasNegativeAmountTerm(context) {
+  return NEGATIVE_AMOUNT_TERMS.some((term) => context.includes(normalizeText(term)));
 }
 
 export function parseBrazilianAmount(raw) {

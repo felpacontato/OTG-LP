@@ -1,43 +1,65 @@
-# OTG-LP — status de continuidade
+# OTG-LP - status de continuidade
 
-Última atualização: 2026-07-23
+Ultima atualizacao: 2026-07-23
+Branch de trabalho: `agent/complete-option-a`
+Repositorio: `felpacontato/OTG-LP`
 
-## Implementado na branch de conclusão
+## Concluido localmente
 
-- fluxo completo de upload, preview, troca e remoção;
+- fluxo de upload, preview, troca e remocao;
 - drag and drop;
-- validação de tamanho, tipo, extensão e magic bytes;
+- validacao de tamanho, tipo, extensao e magic bytes;
 - OCR local com timeout, cancelamento e encerramento do worker;
-- parser contextual para não confundir saldo com valor do Pix;
-- instituição, valor, moeda, confiança OCR e confiança combinada;
+- parser contextual para nao confundir saldo com valor do Pix;
+- instituicao, valor, moeda, confianca OCR e confianca combinada;
 - estados `approved`, `below_minimum`, `low_confidence` e `unrecognized`;
-- identificador `PIX-XXXXXXXX`;
-- WhatsApp renderizado somente após aprovação;
-- Meta Pixel e GA4 com scripts oficiais;
-- eventos obrigatórios e deduplicação;
-- compliance 18+, jogo responsável e ausência de lucro garantido;
-- seção de privacidade;
-- testes unitários;
-- workflow de CI;
-- README técnico e checklist de evidências.
+- `validationId` estavel para o mesmo arquivo durante a sessao;
+- WhatsApp renderizado somente apos aprovacao e somente com URL valida;
+- `.env.example` com `VITE_WHATSAPP_URL=` vazio;
+- Meta Pixel e GA4 com scripts oficiais quando IDs existem;
+- `PageView/page_view` uma vez por carregamento real da pagina;
+- `InitiateCheckout/begin_checkout` na primeira intencao de upload;
+- `Purchase/purchase` somente apos aprovacao, deduplicado por `purchase:{validationId}`;
+- deduplicacao com fallback em memoria quando `sessionStorage` falha;
+- compliance 18+, jogo responsavel e ausencia de promessa de lucro;
+- secao de privacidade;
+- testes unitarios de Pix, arquivo, WhatsApp e tracking;
+- workflow de CI com Node 22, pnpm 9, `pnpm install --frozen-lockfile` e `pnpm run check`;
+- README tecnico e matriz de evidencias em `docs/EVIDENCES.md`.
 
-## Dependências externas ainda necessárias
+## Validacao local executada
 
-- URL real do WhatsApp;
-- Meta Pixel ID real;
-- GA4 Measurement ID real;
-- projeto Vercel novo;
-- evidências reais do Meta Pixel Helper e GA4 DebugView;
-- testes manuais com imagens fictícias representativas.
-
-## Validação local pendente
-
-Depois de baixar a branch:
-
-```bash
-pnpm install --frozen-lockfile
-pnpm run check
-pnpm run dev
+```text
+pnpm install --frozen-lockfile -> passou
+pnpm run lint -> passou
+pnpm run test -> passou (23 testes)
+pnpm run build -> passou
+pnpm run check -> passou
 ```
 
-Em seguida, testar no navegador em desktop e mobile e preencher `docs/EVIDENCES.md`.
+## Bloqueado por valores externos
+
+- `VITE_WHATSAPP_URL` real;
+- `VITE_META_PIXEL_ID` real;
+- `VITE_GA4_ID` real;
+- projeto Vercel novo e isolado;
+- validacao real no Meta Pixel Helper;
+- validacao real no GA4 DebugView.
+
+## Ainda nao concluido
+
+- testes manuais em navegador real nos viewports 1440 x 900, 768 x 1024 e 375 x 812;
+- fixtures ficticias de imagem para OCR real;
+- screenshots em `docs/evidence/`;
+- URL publica de producao;
+- acompanhamento final do GitHub Actions apos push.
+
+## Proximo passo recomendado para GPT/Codex continuar
+
+1. Confirmar que esta na branch `agent/complete-option-a`.
+2. Rodar `pnpm run check`.
+3. Configurar valores reais em ambiente seguro ou no Vercel novo.
+4. Publicar em um projeto Vercel novo, sem reutilizar projetos Lenterne.
+5. Testar OCR com fixtures ficticias e preencher `docs/EVIDENCES.md`.
+6. Validar Meta Pixel Helper e GA4 DebugView.
+7. Atualizar o PR #1 sem fazer merge.

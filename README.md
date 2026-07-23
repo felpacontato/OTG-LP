@@ -33,7 +33,7 @@ O OCR client-side reduz a superfície de privacidade do MVP. Em produção, a de
 ```text
 PageView / page_view
         ↓
-Seleção de arquivo válido
+Primeira intenção de upload
         ↓
 InitiateCheckout / begin_checkout
         ↓
@@ -109,9 +109,9 @@ As validações incluem:
 
 ### Meta Pixel
 
-- `PageView`: uma vez por sessão/página;
-- `InitiateCheckout`: na primeira seleção de arquivo válido;
-- `Purchase`: somente após validação positiva.
+- `PageView`: uma vez por carregamento real da página;
+- `InitiateCheckout`: na primeira intenção de upload, seja clique, teclado ou drop;
+- `Purchase`: somente após validação positiva, deduplicado por `validationId`.
 
 ### GA4
 
@@ -119,7 +119,7 @@ As validações incluem:
 - `begin_checkout`;
 - `purchase` com `transaction_id` igual ao código `PIX-XXXXXXXX`.
 
-A deduplicação usa `sessionStorage`. O tracking não recebe imagem, nome, telefone, instituição, conteúdo OCR ou dados bancários.
+A deduplicação usa uma proteção em memória para o carregamento atual e `sessionStorage` quando disponível. O `PageView/page_view` não usa `sessionStorage`, permitindo novo evento em reload real. O tracking não recebe imagem, nome, telefone, instituição, conteúdo OCR ou dados bancários.
 
 ## Privacidade e compliance
 
@@ -144,12 +144,12 @@ VITE_MIN_PIX_AMOUNT=97
 VITE_MIN_OCR_CONFIDENCE=55
 VITE_MAX_UPLOAD_BYTES=4194304
 VITE_OCR_TIMEOUT_MS=30000
-VITE_WHATSAPP_URL=https://wa.me/55SEUNUMERO
+VITE_WHATSAPP_URL=
 VITE_META_PIXEL_ID=
 VITE_GA4_ID=
 ```
 
-`VITE_WHATSAPP_URL` não possui fallback falso. Sem uma URL configurada, o sistema informa que o canal ainda não está disponível.
+`VITE_WHATSAPP_URL` não possui fallback falso. Exemplo de formato: `https://wa.me/5511999999999`. Sem uma URL configurada ou com host inválido, o sistema informa que o canal ainda não está disponível.
 
 ## Execução
 
@@ -181,8 +181,24 @@ pnpm run build
 - valores concorrentes;
 - ausência de evidência Pix;
 - moeda não identificada;
-- tamanho e tipo de arquivo;
-- assinaturas JPEG, PNG e WebP.
+- tamanho, extensão e tipo de arquivo;
+- assinaturas JPEG, PNG e WebP;
+- URL de WhatsApp vazia, inválida, host não permitido e parâmetros preservados;
+- PageView por carregamento, begin_checkout único, Purchase por `validationId` e fallback sem `sessionStorage`.
+
+## Validação local mais recente
+
+Executada em 2026-07-23 na branch `agent/complete-option-a`:
+
+```text
+pnpm install --frozen-lockfile -> passou
+pnpm run lint -> passou
+pnpm run test -> passou (23 testes)
+pnpm run build -> passou
+pnpm run check -> passou
+```
+
+Ainda dependem de valores reais e ambiente publicado: WhatsApp, Meta Pixel, GA4, Vercel, Pixel Helper e GA4 DebugView.
 
 ## Deploy
 

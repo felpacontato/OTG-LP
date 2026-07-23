@@ -49,6 +49,7 @@ function App() {
   const [validationId, setValidationId] = useState('');
   const inputRef = useRef(null);
   const abortRef = useRef(null);
+  const validationIdsRef = useRef(new Map());
 
   useEffect(() => {
     initTracking(CONFIG);
@@ -107,7 +108,6 @@ function App() {
 
     setFile(selected);
     setStatus('selected');
-    trackBeginCheckout();
   }
 
   function onFileChange(event) {
@@ -117,7 +117,12 @@ function App() {
   function onDrop(event) {
     event.preventDefault();
     event.currentTarget.classList.remove('dropzone--active');
+    trackBeginCheckout();
     void selectFile(event.dataTransfer.files?.[0]);
+  }
+
+  function onUploadIntent() {
+    if (status !== 'processing') trackBeginCheckout();
   }
 
   function onDragOver(event) {
@@ -166,7 +171,7 @@ function App() {
         ocr.confidence,
         CONFIG.minOcrConfidence,
       );
-      const nextValidationId = createValidationId();
+      const nextValidationId = getValidationIdForFile(file, validationIdsRef.current);
 
       setResult(validation);
       setValidationId(nextValidationId);
@@ -272,6 +277,8 @@ function App() {
               type="file"
               accept={SUPPORTED_FILE_TYPES.join(',')}
               onChange={onFileChange}
+              onClick={onUploadIntent}
+              onKeyDown={onUploadIntent}
               disabled={status === 'processing'}
             />
             {previewUrl ? (
@@ -362,6 +369,10 @@ function App() {
               <p className="message message--warning">Validação aprovada, mas o WhatsApp ainda não foi configurado.</p>
             )}
 
+            {status === 'approved' && CONFIG.whatsappUrl && !whatsappUrl && (
+              <p className="message message--warning">Validação aprovada, mas a URL do WhatsApp está inválida.</p>
+            )}
+
             <p className="panel__disclaimer">
               A análise identifica elementos visuais da imagem. Ela não confirma liquidação bancária nem autenticidade do pagamento.
             </p>
@@ -414,3 +425,9 @@ createRoot(document.getElementById('root')).render(
     <App />
   </React.StrictMode>,
 );
+
+function getValidationIdForFile(file, cache) {
+  const key = [file.name, file.type, file.size, file.lastModified].join(':');
+  if (!cache.has(key)) cache.set(key, createValidationId());
+  return cache.get(key);
+}
