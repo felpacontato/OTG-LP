@@ -4,7 +4,6 @@ import {
   AlertTriangle,
   CheckCircle2,
   FileImage,
-  LockKeyhole,
   RefreshCw,
   ShieldCheck,
   Sparkles,
@@ -22,20 +21,20 @@ import './styles.css';
 
 const STATUS_COPY = {
   approved: {
-    title: 'Validação visual aprovada',
-    description: 'O comprovante foi identificado e o valor atende ao mínimo da oferta.',
+    title: 'Comprovante aprovado',
+    description: 'O valor foi identificado e está dentro do mínimo exigido para liberar o acesso.',
   },
   below_minimum: {
     title: 'Valor abaixo do mínimo',
-    description: `O valor identificado não atingiu ${formatCurrency(CONFIG.minPixAmount)}.`,
+    description: `O valor encontrado é menor que ${formatCurrency(CONFIG.minPixAmount)}.`,
   },
   low_confidence: {
-    title: 'Leitura com baixa confiança',
-    description: 'Envie um print mais nítido, sem cortes e com o valor do Pix visível.',
+    title: 'Não deu para conferir com segurança',
+    description: 'Tente novamente com uma imagem mais nítida, sem cortes e com o valor do Pix bem visível.',
   },
   unrecognized: {
-    title: 'Comprovante não reconhecido',
-    description: 'Não encontramos evidências suficientes de um comprovante Pix legível.',
+    title: 'Não conseguimos identificar o comprovante',
+    description: 'Confira se a imagem mostra um comprovante Pix legível e envie novamente.',
   },
 };
 
@@ -102,7 +101,7 @@ function App() {
     } catch {
       setFile(null);
       setStatus('error');
-      setError('Não foi possível verificar o conteúdo do arquivo.');
+      setError('Não foi possível conferir esse arquivo. Escolha outra imagem e tente novamente.');
       return;
     }
 
@@ -148,7 +147,7 @@ function App() {
   async function analyzeReceipt() {
     if (!file) {
       setStatus('error');
-      setError('Selecione o comprovante antes de iniciar a análise.');
+      setError('Escolha a imagem do comprovante antes de continuar.');
       return;
     }
 
@@ -190,7 +189,7 @@ function App() {
       setError(
         exception instanceof OcrError && exception.code === 'timeout'
           ? exception.message
-          : 'Não foi possível ler essa imagem. Tente um print mais nítido do comprovante.',
+          : 'Não conseguimos ler essa imagem. Tente um print mais nítido do comprovante.',
       );
     } finally {
       if (abortRef.current === controller) abortRef.current = null;
@@ -203,7 +202,7 @@ function App() {
     <main>
       <aside className="compliance-bar" aria-label="Aviso de responsabilidade">
         <span>18+</span>
-        <p>Conteúdo para maiores de 18 anos. Jogue com responsabilidade. Não há garantia de lucro.</p>
+        <p>Conteúdo para maiores de 18 anos. Jogue com responsabilidade. Não existe garantia de lucro.</p>
       </aside>
 
       <header className="site-header">
@@ -213,56 +212,52 @@ function App() {
         <nav aria-label="Navegação principal">
           <a href="#como-funciona">Como funciona</a>
           <a href="#privacidade">Privacidade</a>
-          <a className="header-cta" href="#validacao">Validar comprovante</a>
+          <a className="header-cta" href="#validacao">Enviar comprovante</a>
         </nav>
       </header>
 
       <section id="inicio" className="hero" aria-labelledby="page-title">
         <div className="hero__content">
-          <p className="eyebrow">Acesso condicionado à validação visual</p>
-          <h1 id="page-title">Envie seu comprovante e solicite acesso ao Grupo VIP.</h1>
+          <h1 id="page-title">Envie seu comprovante e libere seu acesso ao Grupo VIP.</h1>
           <p className="hero__copy">
-            A leitura automática identifica as informações essenciais da imagem e libera o próximo passo quando o valor atende ao mínimo da oferta.
+            Faça o upload do comprovante Pix. Assim que o valor for identificado e aprovado, o botão de entrada no WhatsApp será liberado.
           </p>
           <div className="hero__actions">
-            <a className="button button--primary" href="#validacao">Validar comprovante</a>
+            <a className="button button--primary" href="#validacao">Enviar comprovante</a>
             <span className="hero__note">Valor mínimo: {formatCurrency(CONFIG.minPixAmount)}</span>
           </div>
         </div>
         <div className="hero__visual" aria-hidden="true">
-          <div className="signal signal--one" />
-          <div className="signal signal--two" />
-          <div className="receipt">
-            <span>PIX</span>
-            <strong>Validação inteligente</strong>
-            <small>OCR local + regras auditáveis</small>
-          </div>
+          <video className="hero__video" autoPlay muted loop playsInline preload="metadata">
+            <source src="/assets/hero-live-wallpaper.mp4" type="video/mp4" />
+          </video>
+          <div className="hero__video-overlay" />
         </div>
       </section>
 
-      <section className="trust" aria-label="Diferenciais">
+      <section className="trust" aria-label="Como funciona o acesso">
         <article>
-          <ShieldCheck size={24} />
-          <strong>Acesso condicionado</strong>
-          <span>O WhatsApp é exibido somente após a validação positiva.</span>
+          <UploadCloud size={24} />
+          <strong>Envio simples</strong>
+          <span>Escolha uma imagem nítida do comprovante e inicie a conferência.</span>
         </article>
         <article>
           <Sparkles size={24} />
-          <strong>Leitura automatizada</strong>
-          <span>OCR identifica instituição, valor, moeda e confiança da leitura.</span>
+          <strong>Resultado na hora</strong>
+          <span>O sistema identifica o valor do Pix e informa se ele atende ao mínimo.</span>
         </article>
         <article>
-          <LockKeyhole size={24} />
-          <strong>Processamento local</strong>
-          <span>A imagem é processada no navegador e não é armazenada pelo projeto.</span>
+          <ShieldCheck size={24} />
+          <strong>Acesso após aprovação</strong>
+          <span>Quando o comprovante for aprovado, o botão para entrar no grupo será liberado.</span>
         </article>
       </section>
 
       <section id="validacao" className="validator" aria-labelledby="validator-title">
         <div className="section-heading">
-          <p className="eyebrow">Validação</p>
-          <h2 id="validator-title">Envie uma imagem do comprovante Pix</h2>
-          <span>Use um print nítido, sem cortes e com o valor principal visível.</span>
+          <p className="eyebrow">Envio do comprovante</p>
+          <h2 id="validator-title">Envie o comprovante do Pix</h2>
+          <span>Use uma imagem nítida, sem cortes e com o valor da transferência visível.</span>
         </div>
 
         <div className="workspace">
@@ -286,8 +281,8 @@ function App() {
             ) : (
               <span className="dropzone__empty">
                 <UploadCloud size={38} />
-                <strong>Arraste a imagem ou clique para escolher</strong>
-                <small>PNG, JPG ou WebP · até {formatBytes(CONFIG.maxUploadBytes)}</small>
+                <strong>Arraste a imagem aqui ou clique para escolher</strong>
+                <small>PNG, JPG ou WebP — até {formatBytes(CONFIG.maxUploadBytes)}</small>
               </span>
             )}
           </label>
@@ -297,7 +292,7 @@ function App() {
               <FileImage size={22} />
               <div>
                 <strong>{file ? file.name : 'Nenhum arquivo selecionado'}</strong>
-                <span>{file ? `${formatBytes(file.size)} · ${file.type}` : 'Aguardando imagem'}</span>
+                <span>{file ? `${formatBytes(file.size)} · ${file.type}` : 'Escolha uma imagem para começar'}</span>
               </div>
             </div>
 
@@ -318,11 +313,11 @@ function App() {
               onClick={analyzeReceipt}
               disabled={!file || status === 'processing'}
             >
-              {status === 'processing' ? `Analisando imagem · ${progress}%` : 'Analisar comprovante'}
+              {status === 'processing' ? `Conferindo comprovante · ${progress}%` : 'Conferir comprovante'}
             </button>
 
             {status === 'processing' && (
-              <div className="progress" aria-label={`Progresso da leitura: ${progress}%`}>
+              <div className="progress" aria-label={`Progresso da conferência: ${progress}%`}>
                 <span style={{ width: `${progress}%` }} />
               </div>
             )}
@@ -348,8 +343,8 @@ function App() {
                   <div><dt>Instituição</dt><dd>{result.institution || 'Não identificada'}</dd></div>
                   <div><dt>Valor</dt><dd>{result.amount !== null ? formatCurrency(result.amount) : 'Não identificado'}</dd></div>
                   <div><dt>Moeda</dt><dd>{result.currency || 'Não identificada'}</dd></div>
-                  <div><dt>Confiança OCR</dt><dd>{result.ocrConfidence}%</dd></div>
-                  <div><dt>Confiança combinada</dt><dd>{result.effectiveConfidence}%</dd></div>
+                  <div><dt>Confiança da leitura</dt><dd>{result.ocrConfidence}%</dd></div>
+                  <div><dt>Resultado da conferência</dt><dd>{result.effectiveConfidence}%</dd></div>
                   <div><dt>Código</dt><dd>{validationId}</dd></div>
                 </dl>
 
@@ -366,15 +361,15 @@ function App() {
             )}
 
             {status === 'approved' && !CONFIG.whatsappUrl && (
-              <p className="message message--warning">Validação aprovada, mas o WhatsApp ainda não foi configurado.</p>
+              <p className="message message--warning">O comprovante foi aprovado, mas o WhatsApp ainda não foi configurado.</p>
             )}
 
             {status === 'approved' && CONFIG.whatsappUrl && !whatsappUrl && (
-              <p className="message message--warning">Validação aprovada, mas a URL do WhatsApp está inválida.</p>
+              <p className="message message--warning">O comprovante foi aprovado, mas o link do WhatsApp está inválido.</p>
             )}
 
             <p className="panel__disclaimer">
-              A análise identifica elementos visuais da imagem. Ela não confirma liquidação bancária nem autenticidade do pagamento.
+              A conferência da imagem não substitui a confirmação bancária do pagamento.
             </p>
           </div>
         </div>
@@ -383,24 +378,24 @@ function App() {
       <section id="como-funciona" className="steps" aria-labelledby="steps-title">
         <div className="section-heading">
           <p className="eyebrow">Como funciona</p>
-          <h2 id="steps-title">Três passos, sem promessas enganosas</h2>
+          <h2 id="steps-title">Como liberar seu acesso</h2>
         </div>
         <div className="steps__grid">
-          <article><span>01</span><h3>Selecione a imagem</h3><p>O navegador verifica formato, tamanho e assinatura do arquivo.</p></article>
-          <article><span>02</span><h3>Aguarde a leitura</h3><p>O OCR procura indícios de Pix e interpreta o valor com regras contextuais.</p></article>
-          <article><span>03</span><h3>Receba o resultado</h3><p>O acesso só aparece quando a validação visual atende aos critérios configurados.</p></article>
+          <article><span>01</span><h3>Envie a imagem</h3><p>Escolha um print nítido do comprovante Pix.</p></article>
+          <article><span>02</span><h3>Aguarde a conferência</h3><p>O valor e as informações principais serão identificados.</p></article>
+          <article><span>03</span><h3>Entre no grupo</h3><p>Se estiver tudo certo, o acesso pelo WhatsApp será liberado.</p></article>
         </div>
       </section>
 
       <section id="privacidade" className="privacy" aria-labelledby="privacy-title">
         <div>
           <p className="eyebrow">Privacidade</p>
-          <h2 id="privacy-title">A imagem permanece no seu navegador</h2>
+          <h2 id="privacy-title">Seu comprovante não fica armazenado</h2>
         </div>
         <div className="privacy__copy">
-          <p>O comprovante é processado localmente pelo Tesseract.js e não é enviado a um servidor deste projeto nem armazenado permanentemente.</p>
-          <p>Os eventos de analytics não recebem imagem, nome, telefone, banco, chave Pix, conteúdo OCR ou outros dados pessoais.</p>
-          <p>Para uma operação financeira real, a validação visual deve ser complementada por conciliação com PSP ou instituição bancária.</p>
+          <p>A imagem é usada somente durante a conferência e não é salva por esta página.</p>
+          <p>Não enviamos a imagem nem os dados do comprovante para o Meta Pixel ou Google Analytics.</p>
+          <p>A conferência da imagem não substitui a confirmação bancária do pagamento.</p>
         </div>
       </section>
 
@@ -408,13 +403,13 @@ function App() {
         <AlertTriangle size={28} />
         <div>
           <h2 id="responsible-title">Jogue com responsabilidade</h2>
-          <p>Conteúdo exclusivo para maiores de 18 anos. Apostas envolvem risco. Não existe garantia de lucro, retorno ou resultado financeiro.</p>
+          <p>Conteúdo exclusivo para maiores de 18 anos. Apostas envolvem risco e não existe garantia de lucro ou resultado.</p>
         </div>
       </section>
 
       <footer>
         <strong>OTG LP Factory</strong>
-        <span>Teste técnico · Opção A · Validação visual de comprovante Pix</span>
+        <span>Envio e conferência de comprovante Pix para acesso ao Grupo VIP.</span>
       </footer>
     </main>
   );
