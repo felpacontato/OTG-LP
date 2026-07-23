@@ -38,7 +38,7 @@ export function trackBeginCheckout() {
 
 export function trackPurchase({ validationId, amount, currency }) {
   if (!validationId || !Number.isFinite(amount) || currency !== 'BRL') return;
-  trackOnce(`purchase:${validationId}`, () => {
+  trackOnce('purchase', () => {
     window.fbq?.('track', 'Purchase', {
       value: amount,
       currency,
