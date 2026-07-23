@@ -31,7 +31,9 @@ Projeto Vercel: `felpa-dev-studio/otg-lp`
 - deploy de producao em projeto Vercel novo e isolado: https://otg-lp.vercel.app.
 - `VITE_WHATSAPP_URL=https://wa.me/5511978949127` configurado na Vercel em producao;
 - `VITE_GA4_ID=G-9LR1VZ5FG5` configurado na Vercel em producao;
-- redeploy de producao com WhatsApp e GA4 em https://otg-lp.vercel.app.
+- dataset/pixel Meta novo `OTG-LP` criado no portfolio `Felipe Macedo`;
+- `VITE_META_PIXEL_ID=1309553809947329` configurado na Vercel em producao;
+- redeploy de producao com WhatsApp, GA4 e Meta Pixel em https://otg-lp.vercel.app.
 
 ## Validacao local executada
 
@@ -43,11 +45,8 @@ pnpm run build -> passou
 pnpm run check -> passou
 ```
 
-## Bloqueado por valor externo ou decisao do usuario
+## Bloqueado por validacao externa
 
-- `VITE_META_PIXEL_ID` real para um conjunto de dados OTG.
-- O Events Manager exibiu um conjunto existente `Lunna-Helena-Universe` com ID `1595440109253297`, mas ele nao foi usado para evitar misturar dados de outro projeto.
-- O fluxo `Conectar dados` > `Web` habilita o botao `Avancar`, mas depois fecha o modal sem abrir a proxima etapa no navegador do app.
 - validacao real no Meta Pixel Helper;
 - validacao real no GA4 DebugView.
 

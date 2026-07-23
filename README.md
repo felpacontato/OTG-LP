@@ -198,11 +198,11 @@ pnpm run build -> passou
 pnpm run check -> passou
 ```
 
-Ainda dependem de valor real ou decisao do usuario: Meta Pixel, Pixel Helper e GA4 DebugView.
+Ainda dependem de validacao externa: Meta Pixel Helper e GA4 DebugView.
 
 URL publica atual: https://otg-lp.vercel.app
 
-O projeto Vercel novo e isolado foi criado como `felpa-dev-studio/otg-lp`. `VITE_WHATSAPP_URL=https://wa.me/5511978949127` e `VITE_GA4_ID=G-9LR1VZ5FG5` estao configurados em producao. `VITE_META_PIXEL_ID` ainda precisa de um conjunto de dados Meta especifico para OTG ou autorizacao para usar o ID existente encontrado no Events Manager.
+O projeto Vercel novo e isolado foi criado como `felpa-dev-studio/otg-lp`. `VITE_WHATSAPP_URL=https://wa.me/5511978949127`, `VITE_GA4_ID=G-9LR1VZ5FG5` e `VITE_META_PIXEL_ID=1309553809947329` estao configurados em producao.
 
 ## Deploy
 

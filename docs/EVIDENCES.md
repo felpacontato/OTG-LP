@@ -10,7 +10,7 @@ Branch: `agent/complete-option-a`
 - URL publica: https://otg-lp.vercel.app
 - Commit publicado: preencher apos push final desta atualizacao
 - WhatsApp real: `https://wa.me/5511978949127`
-- Meta Pixel real: BLOQUEADO POR VALOR EXTERNO (`VITE_META_PIXEL_ID`)
+- Meta Pixel real: `1309553809947329`
 - GA4 real: `G-9LR1VZ5FG5`
 
 ## Qualidade Local
@@ -70,7 +70,7 @@ Resultado: passou
 | Purchase/purchase somente aprovado | `src/main.jsx`, `src/tracking.js` | `pnpm run test` | Payload validado | CONCLUIDO |
 | Purchase dedupe por validationId | `src/tracking.js` | `pnpm run test` | `purchase:{validationId}` | CONCLUIDO |
 | GA4 real | Vercel env production + `src/tracking.js` | Redeploy producao | `VITE_GA4_ID=G-9LR1VZ5FG5` | CONCLUIDO |
-| Meta Pixel real | `src/tracking.js` | Events Manager aberto no navegador do app | UI `Conectar dados > Web` fecha apos avancar; ID existente `1595440109253297` pertence a `Lunna-Helena-Universe` e nao foi usado | BLOQUEADO POR VALOR EXTERNO |
+| Meta Pixel real | Vercel env production + dataset `OTG-LP` | Criado no Meta Business Settings e redeploy producao | `VITE_META_PIXEL_ID=1309553809947329` | CONCLUIDO |
 | Responsividade desktop/mobile | `src/styles.css` | Nao executado em navegador real nesta etapa | Precisa screenshot | NAO CONCLUIDO |
 | README | `README.md` | Revisao local | Atualizado | CONCLUIDO |
 | `.env.example` | `.env.example` | Revisao local | WhatsApp vazio | CONCLUIDO |
