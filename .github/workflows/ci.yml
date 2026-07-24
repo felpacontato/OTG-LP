@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-      - 'agent/**'
+      - 'feature/**'
   pull_request:
 
 jobs:
