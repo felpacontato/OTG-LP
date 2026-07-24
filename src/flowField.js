@@ -1,4 +1,4 @@
-const TARGETS = ['.validator', '.steps', '.privacy'];
+const TARGETS = ['.hero__content', '.validator', '.privacy'];
 const STYLE_ID = 'otg-real-flow-field-styles';
 
 function ensureStyles() {
@@ -40,6 +40,9 @@ function ensureStyles() {
       z-index: 1;
     }
 
+    .hero__content.neural-flow-section h1,
+    .hero__content.neural-flow-section .hero__copy,
+    .hero__content.neural-flow-section .hero__note,
     .neural-flow-section .eyebrow,
     .neural-flow-section .section-heading h2,
     .neural-flow-section .privacy__copy,
@@ -47,14 +50,21 @@ function ensureStyles() {
       color: #f5fbf7 !important;
     }
 
+    .hero__content.neural-flow-section .hero__copy,
+    .hero__content.neural-flow-section .hero__note,
     .neural-flow-section .section-heading > span,
     .neural-flow-section .privacy__copy p {
-      color: rgba(235, 255, 244, .78) !important;
+      color: rgba(235, 255, 244, .80) !important;
+    }
+
+    .hero__content.neural-flow-section .button--primary {
+      border-color: #f5fbf7;
+      background: #f5fbf7;
+      color: #06271d;
     }
 
     .neural-flow-section .dropzone,
-    .neural-flow-section .panel,
-    .neural-flow-section .steps__grid article {
+    .neural-flow-section .panel {
       border-color: rgba(196, 232, 211, .34) !important;
       background: rgba(250, 252, 248, .96) !important;
       box-shadow: 0 24px 70px rgba(0, 17, 11, .30) !important;
@@ -73,6 +83,16 @@ function ensureStyles() {
       background: rgba(2, 32, 23, .46);
       box-shadow: 0 24px 70px rgba(0, 17, 11, .22);
       backdrop-filter: blur(10px);
+    }
+
+    .steps.field-section {
+      background: var(--color-paper-strong) !important;
+    }
+
+    .steps.field-section::before,
+    .steps.field-section::after {
+      content: none !important;
+      display: none !important;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -140,7 +160,7 @@ function createFlowField(section, sectionIndex) {
       : Math.min(900, Math.max(320, Math.floor((width * height) / 2200)));
 
     particles.length = 0;
-    for (let i = 0; i < targetCount; i += 1) particles.push(randomParticle());
+    for (let index = 0; index < targetCount; index += 1) particles.push(randomParticle());
     ctx.fillStyle = '#052b20';
     ctx.fillRect(0, 0, width, height);
   }
@@ -230,6 +250,10 @@ function createFlowField(section, sectionIndex) {
 
 function initializeFlowFields() {
   ensureStyles();
+  document.querySelectorAll('.steps').forEach((section) => {
+    section.classList.remove('neural-flow-section');
+    section.querySelectorAll(':scope > .neural-flow-canvas').forEach((canvas) => canvas.remove());
+  });
   TARGETS.forEach((selector, index) => {
     document.querySelectorAll(selector).forEach((section) => createFlowField(section, index));
   });
