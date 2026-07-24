@@ -229,7 +229,7 @@ function App() {
         </div>
         <div className="hero__visual" aria-hidden="true">
           <video className="hero__video" autoPlay muted loop playsInline preload="metadata">
-            <source src="/assets/hero-live-wallpaper.mp4" type="video/mp4" />
+            <source src="/assets/hero-live-wallpaper.mp4.mp4" type="video/mp4" />
           </video>
           <div className="hero__video-overlay" />
         </div>
@@ -253,7 +253,7 @@ function App() {
         </article>
       </section>
 
-      <section id="validacao" className="validator" aria-labelledby="validator-title">
+      <section id="validacao" className="validator field-section" aria-labelledby="validator-title">
         <div className="section-heading">
           <p className="eyebrow">Envio do comprovante</p>
           <h2 id="validator-title">Envie o comprovante do Pix</h2>
@@ -375,7 +375,7 @@ function App() {
         </div>
       </section>
 
-      <section id="como-funciona" className="steps" aria-labelledby="steps-title">
+      <section id="como-funciona" className="steps field-section" aria-labelledby="steps-title">
         <div className="section-heading">
           <p className="eyebrow">Como funciona</p>
           <h2 id="steps-title">Como liberar seu acesso</h2>
@@ -387,7 +387,7 @@ function App() {
         </div>
       </section>
 
-      <section id="privacidade" className="privacy" aria-labelledby="privacy-title">
+      <section id="privacidade" className="privacy field-section" aria-labelledby="privacy-title">
         <div>
           <p className="eyebrow">Privacidade</p>
           <h2 id="privacy-title">Seu comprovante não fica armazenado</h2>
