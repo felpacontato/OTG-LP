@@ -1,6 +1,6 @@
 # Evidencias da entrega OTG-LP
 
-Data local da ultima validacao: 2026-07-23
+Data local da ultima validacao: 2026-07-23 / 2026-07-24
 Branch: `agent/complete-option-a`
 
 > Nao inclua comprovantes reais com nome, CPF, CNPJ, chave Pix, conta, agencia, telefone ou identificador bancario.
@@ -12,6 +12,39 @@ Branch: `agent/complete-option-a`
 - WhatsApp real: `https://wa.me/5511978949127`
 - Meta Pixel real: `1309553809947329`
 - GA4 real: `G-9LR1VZ5FG5`
+
+## Homologacao final em producao
+
+URL testada: https://otg-lp.vercel.app
+
+Resultado em 2026-07-24:
+
+- `pnpm run check`: passou localmente, 23 testes, lint e build sem erro.
+- Deploy de producao feito novamente a partir do codigo versionado local.
+- Desktop 1440 x 900: passou, sem overflow horizontal.
+- Desktop 1366 x 768: passou, sem overflow horizontal.
+- Tablet 768 x 1024: passou, sem overflow horizontal.
+- Mobile 390 x 844: passou, sem overflow horizontal.
+- Mobile 375 x 812: passou, sem overflow horizontal.
+- Conteudo obrigatorio: headline, beneficio, CTA, 18+, jogo responsavel e ausencia de promessa de lucro visiveis.
+- OCR aprovado com fixture `approved-r97.png`: Nubank, R$ 97,00, BRL, confianca exibida, codigo `PIX-*` e WhatsApp liberado.
+- Caso abaixo do minimo `below-minimum-r96-99.png`: R$ 96,99, sem WhatsApp e sem Purchase.
+- Caso saldo alto `below-minimum-r10-with-balance-r5000.png`: valor principal R$ 10,00, sem confundir com saldo R$ 5.000,00.
+- Caso nao Pix `not-pix.png`: erro amigavel, sem WhatsApp e sem Purchase.
+- Meta Pixel via CDP Network: `PageView`, `InitiateCheckout` e `Purchase` enviados para pixel `1309553809947329`.
+- GA4 via `dataLayer`: `page_view`, `begin_checkout` e `purchase` com `transaction_id`, `value`, `currency` e `items`.
+- Duplicidade: reanalise do mesmo arquivo manteve apenas um `purchase` e gerou zero novos requests `Purchase`.
+- Storage: `localStorage` e `sessionStorage` sem imagem/base64/conteudo OCR persistido apos verificacao.
+
+Arquivos salvos em `docs/evidence/`:
+
+- `desktop-1440x900.png`
+- `desktop-1366x768.png`
+- `tablet-768x1024.png`
+- `mobile-390x844.png`
+- `mobile-375x812.png`
+- `approved-state.png`
+- fixtures ficticias em `docs/evidence/fixtures/`
 
 ## Qualidade Local
 
