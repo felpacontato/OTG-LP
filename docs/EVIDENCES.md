@@ -1,7 +1,7 @@
 # Evidencias da entrega OTG-LP
 
 Data local da ultima validacao: 2026-07-23 / 2026-07-24
-Branch: `agent/complete-option-a`
+Branch: `feature/option-a-pix-ocr`
 
 > Nao inclua comprovantes reais com nome, CPF, CNPJ, chave Pix, conta, agencia, telefone ou identificador bancario.
 

@@ -1,12 +1,12 @@
-# OTG-LP - status de continuidade
+# OTG-LP - status de entrega
 
-Ultima atualizacao: 2026-07-23
-Branch de trabalho: `agent/complete-option-a`
+Ultima atualizacao: 2026-07-24
+Branch de trabalho: `feature/option-a-pix-ocr`
 Repositorio: `felpacontato/OTG-LP`
 URL publica: https://otg-lp.vercel.app
 Projeto Vercel: `felpa-dev-studio/otg-lp`
 
-## Concluido localmente
+## Concluido
 
 - fluxo de upload, preview, troca e remocao;
 - drag and drop;
@@ -33,9 +33,15 @@ Projeto Vercel: `felpa-dev-studio/otg-lp`
 - `VITE_GA4_ID=G-9LR1VZ5FG5` configurado na Vercel em producao;
 - dataset/pixel Meta novo `OTG-LP` criado no portfolio `Felipe Macedo`;
 - `VITE_META_PIXEL_ID=1309553809947329` configurado na Vercel em producao;
-- redeploy de producao com WhatsApp, GA4 e Meta Pixel em https://otg-lp.vercel.app.
+- redeploy de producao com WhatsApp, GA4 e Meta Pixel em https://otg-lp.vercel.app;
+- fixtures ficticias de imagem para OCR real em `docs/evidence/fixtures/`;
+- screenshots de evidencia em `docs/evidence/`;
+- testes manuais em viewports desktop, tablet e mobile;
+- validacao de eventos Meta Pixel via rede/CDP;
+- validacao de eventos GA4 via `dataLayer`;
+- acompanhamento final do GitHub Actions apos push.
 
-## Validacao local executada
+## Validacao executada
 
 ```text
 pnpm install --frozen-lockfile -> passou
@@ -43,26 +49,9 @@ pnpm run lint -> passou
 pnpm run test -> passou (23 testes)
 pnpm run build -> passou
 pnpm run check -> passou
+GitHub Actions CI -> passou
 ```
 
-## Bloqueado por validacao externa
+## Evidencias
 
-- validacao real no Meta Pixel Helper;
-- validacao real no GA4 DebugView.
-
-## Ainda nao concluido
-
-- testes manuais em navegador real nos viewports 1440 x 900, 768 x 1024 e 375 x 812;
-- fixtures ficticias de imagem para OCR real;
-- screenshots em `docs/evidence/`;
-- acompanhamento final do GitHub Actions apos push.
-
-## Proximo passo recomendado para GPT/Codex continuar
-
-1. Confirmar que esta na branch `agent/complete-option-a`.
-2. Rodar `pnpm run check`.
-3. Configurar valores reais em ambiente seguro ou no Vercel novo.
-4. Publicar em um projeto Vercel novo, sem reutilizar projetos Lenterne.
-5. Testar OCR com fixtures ficticias e preencher `docs/EVIDENCES.md`.
-6. Validar Meta Pixel Helper e GA4 DebugView.
-7. Atualizar o PR #1 sem fazer merge.
+As evidencias de homologacao estao descritas em `docs/EVIDENCES.md`.

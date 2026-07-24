@@ -188,7 +188,7 @@ pnpm run build
 
 ## Validação local mais recente
 
-Executada em 2026-07-23 na branch `agent/complete-option-a`:
+Executada em 2026-07-23 na branch `feature/option-a-pix-ocr`:
 
 ```text
 pnpm install --frozen-lockfile -> passou
