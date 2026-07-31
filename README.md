@@ -1,78 +1,73 @@
-# OTG-LP - Grupo VIP com validacao Pix por IA/OCR
+# OTG-LP
 
-Landing page para o teste tecnico do Grupo OTG, Opcao A. O fluxo permite upload de comprovante Pix, faz leitura automatizada por OCR, valida valor minimo e libera o link do WhatsApp apenas quando o comprovante e aprovado.
+Landing page para validação de comprovantes Pix com OCR no navegador e liberação condicional de acesso a um grupo VIP.
 
-## Stack
+## Visão geral
 
-- React 18
-- Vite
-- Tesseract.js para OCR no navegador
-- CSS puro com tokens de design
-- Meta Pixel e GA4 encapsulados em `src/tracking.js`
+O projeto demonstra um fluxo de conversão no qual o usuário envia um comprovante, recebe uma validação automatizada e, quando os critérios são atendidos, obtém acesso ao canal de destino. A implementação prioriza resposta rápida, privacidade e uma experiência clara em dispositivos móveis.
 
-## Como rodar
+## Tecnologias
+
+- React 18 e Vite
+- Tesseract.js
+- CSS com tokens de design
+- Meta Pixel e Google Analytics 4
+- Vitest e ESLint
+
+## Funcionalidades
+
+- Upload de imagens PNG, JPG e WEBP
+- OCR executado localmente no navegador
+- Extração de valor e identificação de indicadores de pagamento Pix
+- Pontuação de confiança para aprovação
+- Liberação condicional do link de WhatsApp
+- Eventos de conversão preparados para Meta Pixel e GA4
+- Interface responsiva e estados de erro orientados ao usuário
+
+## Arquitetura
+
+A leitura do comprovante acontece no cliente, reduzindo o envio desnecessário de imagens para serviços externos. A validação combina termos relacionados a Pix, valor monetário identificado e uma pontuação mínima de confiança.
+
+Para uma operação financeira em produção, a decisão final deve ser confirmada por uma API segura integrada ao provedor de pagamentos. O fluxo deste projeto representa a camada de experiência e validação preliminar.
+
+## Execução local
 
 ```bash
 pnpm install
 pnpm run dev
 ```
 
-Build de producao:
+Build de produção:
 
 ```bash
 pnpm run build
 pnpm run preview
 ```
 
-## Configuracao
+## Configuração
 
-Copie `.env.example` para `.env.local` e ajuste:
+Crie um arquivo `.env.local` a partir de `.env.example` e configure:
 
 ```bash
 VITE_MIN_PIX_AMOUNT=97
-VITE_WHATSAPP_URL=https://wa.me/5500000000000?text=Pix%20validado
+VITE_WHATSAPP_URL=https://wa.me/5500000000000
 VITE_META_PIXEL_ID=
 VITE_GA4_ID=
 ```
 
-## Fluxo implementado
+Não versione credenciais ou identificadores privados.
 
-1. Usuario acessa a LP e clica para validar o comprovante.
-2. Envia uma imagem PNG, JPG ou WEBP.
-3. O app roda OCR localmente com `tesseract.js`.
-4. `src/pixValidator.js` procura termos Pix, valor em reais, banco provavel e calcula score.
-5. Se o valor identificado for maior ou igual ao minimo configurado e o score for suficiente, o botao do WhatsApp e liberado.
-6. Eventos importantes sao enviados para Meta Pixel/GA4 quando os IDs estiverem configurados.
+## Qualidade
 
-## Criterios de aprovacao
+```bash
+pnpm run lint
+pnpm run test
+pnpm run build
+```
 
-O comprovante precisa conter:
+## Autor
 
-- termo relacionado a Pix;
-- valor monetario reconhecido;
-- valor maior ou igual a `VITE_MIN_PIX_AMOUNT`;
-- score final minimo de 65.
+Felipe Fernandes Prates
 
-Banco provavel aumenta a confianca, mas nao e obrigatorio para aprovacao.
-
-## Decisoes tecnicas
-
-O OCR roda no cliente para acelerar a entrega do teste e evitar expor chaves de IA. Isso tambem torna o prototipo simples de publicar em Vercel, Netlify ou GitHub Pages.
-
-Para producao, eu moveria a decisao final para uma API serverless com:
-
-- validacao antifraude mais robusta;
-- armazenamento minimo de auditoria;
-- rate limit por IP/dispositivo;
-- OCR gerenciado ou IA multimodal;
-- comparacao com transacoes recebidas no PSP, quando disponivel.
-
-## Limitacoes conhecidas
-
-- OCR depende da nitidez do print.
-- A validacao atual demonstra o fluxo, mas nao substitui conciliacao bancaria real.
-- Comprovantes muito estilizados podem exigir regras extras de parsing.
-
-## Continuidade
-
-Veja `PROJECT_STATUS.md` para contexto rapido do que foi feito, decisoes tomadas e proximas etapas.
+- [Portfólio](https://www.portfolio.felpamusic.com.br)
+- [GitHub](https://github.com/felpacontato)
